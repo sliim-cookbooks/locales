@@ -75,6 +75,10 @@ end
 def add_locale(locale)
   run_context.include_recipe 'locales::install'
 
+  directory ::File.dirname(node['locales']['locale_file']) do
+    recursive true
+  end
+
   ruby_block "add locale #{locale}" do
     block do
       file = Chef::Util::FileEdit.new(node['locales']['locale_file'])
